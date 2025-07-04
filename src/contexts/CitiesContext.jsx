@@ -9,6 +9,8 @@ const initialState = {
   error: "",
 };
 
+const BASE_URL=import.meta.env.VITE_API_URL || "http://localhost:9000"
+
 function reducer(state, action) {
   switch (action.type) {
     case "loading":
@@ -49,9 +51,8 @@ function CityProvider({ children }) {
     async function FetchCities() {
       dispatch({ type: "loading" });
       try {
-        const res = await fetch("http://localhost:9000/cities");
+        const res = await fetch(`${BASE_URL}/cities`);
         const data = await res.json();
-
         dispatch({ type: "cities/loaded", payload: data });
       } catch (error) {
         dispatch({
@@ -66,7 +67,7 @@ function CityProvider({ children }) {
   async function getCity(id) {
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`http://localhost:9000/cities/${id}`);
+      const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
 
       dispatch({ type: "city/loaded", payload: data });
@@ -80,7 +81,7 @@ function CityProvider({ children }) {
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`http://localhost:9000/cities`, {
+      const res = await fetch(`${BASE_URL}/cities`, {
         method: "POST",
         body: JSON.stringify(newCity),
         headers: {
@@ -100,7 +101,7 @@ function CityProvider({ children }) {
   async function deleteCity(id) {
     dispatch({ type: "loading" });
     try {
-      await fetch(`http://localhost:9000/cities/${id}`, {
+      await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
 

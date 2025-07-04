@@ -71,6 +71,7 @@ function Form() {
     if (!cityName || !date) return;
 
     const newCity = {
+      id: Date.now(),
       cityName,
       country,
       emoji,
@@ -78,18 +79,18 @@ function Form() {
       position: { lat, lng },
       notes,
     };
-
+    
     await createCity(newCity);
     navigate("/app/cities");
   }
-
+  
   if (isLoadingGeocoding) return <Spinner />;
-
+  
   if (!lat && !lng)
     return <Message message={"Start by clicking on the map."} />;
-
+  
   if (geoCodingError) return <Message message={geoCodingError} />;
-
+  
   return (
     <form
       className={`${styles.form} ${isLoading ? styles.loading : ""}`}
